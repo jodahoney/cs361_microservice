@@ -1,30 +1,41 @@
+from dataclasses import dataclass
+import json
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def show_survey():
-    return render_template('survey.html')
+@app.route('/square-results/<int:num>')
+def square_results(num):
+    val_sqd = num**2
+    response = {
+        "squared_value": val_sqd,
+    }
+    return jsonify(response)
 
-@app.route('/get-results', methods=['GET', 'POST'])
-def get_results():
-    if request.method == 'POST':
-        f_name = request.form.get("fname")
-        l_name = request.form.get('lname')
-        rating = request.form.get('rating')
-        explanation = request.form.get('explanation')
 
+@dataclass
+class Macronutrient:
+    name:str
+    cals_per_gram: int
+
+    def calc_calories(self) -> int:
+        if self.name in ["carbohydrate", "protein"]:
+            return self.cals_per_gram * 4
+        else:
+            return self.cals_per_gram * 9
+
+@app.route('/calculate-cals/<string:name>/<int:grams>')
+def calculate_cals(name, grams):
+    if name and grams:
+        macro = Macronutrient(name, grams)
         response = {
-            "first_name": f_name,
-            "last_name": l_name,
-            "rating": rating,
-            "explanation": explanation
+            "macro-name": name,
+            "grams": grams,
+            "calories": macro.calc_calories()
         }
-
         return jsonify(response)
-    else:
-        return redirect(url_for('show_survey'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
