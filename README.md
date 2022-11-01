@@ -8,7 +8,7 @@ If you want to try it out locally, simply clone and to start up api, run `python
 
 As this is a rest-api, all communication is done through http requests. In order to request data, you send an http GET request to the url (currently not hosted in a central location, will need to clone and start local version of api).
 
-GET Request format: `*url-address*/square-result/<*num to be squared*`
+GET Request format: `*url-address*/square-result/*num to be squared*`
 
 ### Example GET request:
 `http://127.0.0.1:5000/square-results/2`
