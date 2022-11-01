@@ -24,3 +24,7 @@ Example JSON ouput:
   "squared_value": 4
 }
 ```
+
+## UML Diagram:
+
+![UML Diagram](/static/Screen%20Shot%202022-10-31%20at%2010.47.25%20PM.png)
